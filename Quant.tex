@@ -1,0 +1,125 @@
+\documentclass{article}
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+\usepackage[english]{babel}
+
+% Set page size and margins
+% Replace `letterpaper' with `a4paper' for UK/EU standard size
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{amssymb}
+
+\title{Quant}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\textit{Note: All financial metrics in this document are based on Non-GAAP figures.}
+\end{center}
+
+\tableofcontents
+
+\newpage
+\section{P/E (NTM)}
+
+\subsection{Historical P/E NTM}
+
+For each trading day $t$:
+\[
+    \text{PE\_NTM}_t = \frac{\text{Price}_t}{\text{EPS\_NTM}_t}
+\]
+where:
+\begin{itemize}
+    \item $\text{Price}_t$ is the stock price on trading day $t$
+    \item $\text{EPS\_NTM}_t$ is the Next Twelve Months EPS estimate at day $t$
+\end{itemize}
+
+\subsection{P/E NTM Cycle Signal}
+
+Let $\{\text{PE\_NTM}_t\}_{t=1}^{n}$ be the daily P/E NTM values over $n$ trading days.
+
+\paragraph{Mean:}
+\[
+    \mu = \frac{1}{n} \sum_{t=1}^{n} \text{PE\_NTM}_t
+\]
+
+\paragraph{Standard Deviation:}
+\[
+    \sigma = \sqrt{\frac{1}{n-1} \sum_{t=1}^{n} (\text{PE\_NTM}_t - \mu)^2}
+\]
+
+\paragraph{Signal:}
+\[
+    \text{PE\_NTM} < \mu - \sigma
+\]
+
+\subsubsection{5Y-Cycle}
+$n \approx 1250$ (5 years $\times$ $\sim$250 trading days/year)
+
+\subsubsection{1Y-Cycle}
+$n \approx 250$ (1 year $\times$ $\sim$250 trading days/year)
+
+
+\newpage
+\section{NNI CAGR (1Y TTM)}
+
+\subsection{NI TTM}
+
+For quarter $q$:
+\[
+    \text{NI\_TTM}_q = \sum_{i=0}^{3} \text{NI}_{q-i}
+\]
+where $\text{NI\_TTM}_q$ is the Trailing Twelve Months Net Income at quarter $q$.
+
+\subsection{NNI TTM}
+\[
+    \text{NNI\_TTM}_q = \frac{\text{NI\_TTM}_q}{\text{Shares\_Outstanding}_q}
+\]
+where $\text{NNI\_TTM}_q$ is the Normalized Net Income (TTM) at quarter $q$.
+
+\subsection{NNI CAGR}
+\[
+    \text{NNI\_CAGR} = \frac{\text{NNI\_TTM}_q}{\text{NNI\_TTM}_{q-4}} - 1
+\]
+where $\text{NNI\_CAGR}$ is the Compound Annual Growth Rate of Normalized Net Income.
+
+\paragraph{Signal:}
+\[
+    \text{NNI\_CAGR} > 0
+\]
+
+
+\newpage
+\section{NNI Margin (LTM)}
+
+\subsection{Revenue LTM}
+\[
+    \text{Revenue\_LTM} = \sum_{i=0}^{3} \text{Revenue}_{q-i}
+\]
+where $\text{Revenue\_LTM}$ is the Last Twelve Months Revenue.
+
+\subsection{Revenue Per Share}
+\[
+    \text{Revenue\_Per\_Share} = \frac{\text{Revenue\_LTM}}{\text{Shares\_Outstanding}}
+\]
+
+\subsection{NNI Margin}
+\[
+    \text{NNI\_Margin} = \frac{\text{NNI\_TTM}}{\text{Revenue\_Per\_Share}} = \frac{\text{NI\_TTM}}{\text{Revenue\_LTM}}
+\]
+where $\text{NNI\_Margin}$ is the Normalized Net Income Margin (Net Profit Margin).
+
+\paragraph{Signal:}
+\[
+    \text{NNI\_Margin} > 0
+\]
+
+
+\end{document}
