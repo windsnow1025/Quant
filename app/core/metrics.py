@@ -81,12 +81,14 @@ def calc_ni_ttm(quarterly_net_incomes: list[float | None]) -> float | None:
     return sum(quarterly_net_incomes)
 
 
-def calc_nni_ttm(ni_ttm: float, shares_outstanding: float) -> float:
+def calc_nni_ttm(ni_ttm: float | None, shares_outstanding: float | None) -> float | None:
     """
     Calculate NNI TTM (Normalized Net Income Trailing Twelve Months).
 
     NNI_TTM_q = NI_TTM_q / Shares_Outstanding_q
     """
+    if ni_ttm is None or shares_outstanding is None or shares_outstanding == 0:
+        return None
     return ni_ttm / shares_outstanding
 
 
