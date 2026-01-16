@@ -29,6 +29,7 @@ WATCHLIST: list[StockInfo] = [
     StockInfo("QCOM", StockCategory.Hardware),
     StockInfo("AVGO", StockCategory.Hardware),
     StockInfo("MU", StockCategory.Hardware),
+    StockInfo("SNDK", StockCategory.Hardware),
     StockInfo("WDC", StockCategory.Hardware),
     StockInfo("SONY", StockCategory.Hardware),
     StockInfo("LOGI", StockCategory.Hardware),
