@@ -3,7 +3,7 @@ from pathlib import Path
 
 from app.core.models import StockHistoricalData
 
-historical_data_file_path = Path(__file__).parent.parent.parent / "data" / "historical_data.pkl"
+historical_data_file_path = Path(__file__).parent.parent.parent.resolve() / "data" / "historical_data.pkl"
 
 
 def save_historical_data(data: dict[str, StockHistoricalData]) -> None:
