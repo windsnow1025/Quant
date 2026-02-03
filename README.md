@@ -7,7 +7,7 @@ TODO: use PIT consensus EPS data source.
 ### Python uv
 
 1. Install uv: `powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"`
-2. Install Python in uv: `uv python install 3.12`; upgrade Python in uv: `uv python install 3.12`
+2. Install Python in uv: `uv python install 3.12`; upgrade Python in uv: `uv python upgrade 3.12`
 3. Configure requirements:
   ```bash
   uv sync --refresh
