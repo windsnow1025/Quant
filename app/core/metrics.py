@@ -92,15 +92,26 @@ def calc_nni_ttm(ni_ttm: float | None, shares_outstanding: float | None) -> floa
     return ni_ttm / shares_outstanding
 
 
-def calc_nni_cagr(nni_ttm_current: float | None, nni_ttm_prior_year: float | None) -> float | None:
+def calc_nni_cagr(nni_ttm_current: float | None, nni_ttm_prior: float | None) -> float | None:
     """
     Calculate NNI CAGR (Normalized Net Income Compound Annual Growth Rate).
 
     NNI_CAGR = NNI_TTM_q / NNI_TTM_{q-4} - 1
     """
-    if nni_ttm_current is None or nni_ttm_prior_year is None or nni_ttm_prior_year == 0:
+    if nni_ttm_current is None or nni_ttm_prior is None or nni_ttm_prior == 0:
         return None
-    return (nni_ttm_current / nni_ttm_prior_year) - 1
+    return (nni_ttm_current / nni_ttm_prior) - 1
+
+
+def calc_eps_cagr_ntm(eps_ntm: float | None, eps_ttm: float | None) -> float | None:
+    """
+    Calculate EPS CAGR NTM (EPS Compound Annual Growth Rate NTM).
+
+    EPS_CAGR_NTM ≈ EPS_NTM_t / EPS_TTM_t - 1
+    """
+    if eps_ntm is None or eps_ttm is None or eps_ttm == 0:
+        return None
+    return (eps_ntm / eps_ttm) - 1
 
 
 # =============================================================================

@@ -49,6 +49,15 @@ def print_stock_analysis(analysis: StockAnalysis) -> None:
     else:
         print(f"    (Insufficient data)")
 
+    # EPS CAGR NTM
+    print(f"  📈 EPS CAGR NTM:")
+    if metrics.eps_cagr_ntm is not None:
+        signal_eps_cagr = "✅" if signals.eps_cagr_ntm_positive else "❌"
+        print(f"    Value:             {metrics.eps_cagr_ntm:.2%}")
+        print(f"    Signal (> 0):      {signal_eps_cagr}")
+    else:
+        print(f"    (Insufficient data)")
+
     # NNI Margin
     print(f"  📈 NNI Margin (LTM):")
     if metrics.nni_margin is not None:
@@ -60,12 +69,12 @@ def print_stock_analysis(analysis: StockAnalysis) -> None:
 
     # Summary
     print(f"  {'─' * 40}")
-    print(f"  📋 Signal Summary: {signals.signal_count}/4 passed")
+    print(f"  📋 Signal Summary: {signals.signal_count}/5 passed")
     if signals.all_signals_pass:
         print(f"  🎯 RECOMMENDATION: STRONG BUY")
-    elif signals.signal_count >= 3:
+    elif signals.signal_count >= 4:
         print(f"  🎯 RECOMMENDATION: BUY")
-    elif signals.signal_count >= 2:
+    elif signals.signal_count >= 3:
         print(f"  🎯 RECOMMENDATION: HOLD")
     else:
         print(f"  🎯 RECOMMENDATION: AVOID")
@@ -103,9 +112,9 @@ def print_summary_report(analyses: list[StockAnalysis]) -> None:
             m = analysis.metrics
             pe = f"{m.pe_ntm:6.1f}" if m.pe_ntm else "   N/A"
             cagr = f"{m.nni_cagr:+7.1%}" if m.nni_cagr else "    N/A"
+            eps_cagr = f"{m.eps_cagr_ntm:+7.1%}" if m.eps_cagr_ntm else "    N/A"
             margin = f"{m.nni_margin:6.1%}" if m.nni_margin else "   N/A"
-            print(
-                f"  {analysis.info.ticker:6} | P/E:{pe} | CAGR:{cagr} | Margin:{margin} | Signals: {analysis.signals.signal_count}/4")
+            print(f"  {analysis.info.ticker:6} | P/E:{pe} | CAGR:{cagr} | EPS CAGR:{eps_cagr} | Margin:{margin} | Signals: {analysis.signals.signal_count}/5")
 
     print_category("🎯 STRONG BUY", strong_buy)
     print_category("✅ BUY", buy)

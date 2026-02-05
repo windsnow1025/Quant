@@ -68,6 +68,7 @@ class StockMetrics:
     pe_ntm_days_5y: int = 0
     pe_ntm_days_1y: int = 0
     nni_cagr: float | None = None
+    eps_cagr_ntm: float | None = None
     nni_margin: float | None = None
 
 
@@ -76,6 +77,7 @@ class StockSignals:
     pe_ntm_10y_cycle: bool = False
     pe_ntm_1y_cycle: bool = False
     nni_cagr_positive: bool = False
+    eps_cagr_ntm_positive: bool = False
     nni_margin_positive: bool = False
 
     @property
@@ -84,6 +86,7 @@ class StockSignals:
                 self.pe_ntm_10y_cycle
                 and self.pe_ntm_1y_cycle
                 and self.nni_cagr_positive
+                and self.eps_cagr_ntm_positive
                 and self.nni_margin_positive
         )
 
@@ -93,6 +96,7 @@ class StockSignals:
             self.pe_ntm_10y_cycle,
             self.pe_ntm_1y_cycle,
             self.nni_cagr_positive,
+            self.eps_cagr_ntm_positive,
             self.nni_margin_positive,
         ])
 

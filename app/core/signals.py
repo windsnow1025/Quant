@@ -28,6 +28,17 @@ def signal_nni_cagr(nni_cagr: float | None) -> bool:
     return nni_cagr > 0
 
 
+def signal_eps_cagr_ntm(eps_cagr_ntm: float | None) -> bool:
+    """
+    Calculate EPS CAGR NTM (EPS Compound Annual Growth Rate NTM) Signal.
+
+    EPS_CAGR_NTM > 0
+    """
+    if eps_cagr_ntm is None:
+        return False
+    return eps_cagr_ntm > 0
+
+
 # =============================================================================
 # NNI Margin (LTM)
 # =============================================================================

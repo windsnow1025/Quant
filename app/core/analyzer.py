@@ -6,11 +6,12 @@ from app.core.metrics import (
     calc_ni_ttm,
     calc_nni_ttm,
     calc_nni_cagr,
+    calc_eps_cagr_ntm,
     calc_revenue_ltm,
     calc_nni_margin,
 )
 from app.core.models import Stock, StockMetrics, StockSignals, StockAnalysis
-from app.core.signals import signal_pe_ntm_cycle, signal_nni_cagr, signal_nni_margin
+from app.core.signals import signal_pe_ntm_cycle, signal_nni_cagr, signal_eps_cagr_ntm, signal_nni_margin
 
 
 def analyze_stock(stock: Stock, target_date: date | None = None) -> StockAnalysis:
@@ -20,6 +21,7 @@ def analyze_stock(stock: Stock, target_date: date | None = None) -> StockAnalysi
             pe_ntm_10y_cycle=signal_pe_ntm_cycle(metrics.pe_ntm, metrics.pe_ntm_q1_5y),
             pe_ntm_1y_cycle=signal_pe_ntm_cycle(metrics.pe_ntm, metrics.pe_ntm_q1_1y),
             nni_cagr_positive=signal_nni_cagr(metrics.nni_cagr),
+            eps_cagr_ntm_positive=signal_eps_cagr_ntm(metrics.eps_cagr_ntm),
             nni_margin_positive=signal_nni_margin(metrics.nni_margin),
         )
 
@@ -85,18 +87,24 @@ def _calculate_metrics(stock: Stock, target_date: date | None = None) -> StockMe
     pe_ntm_q1_5y, pe_ntm_days_5y = calc_pe_ntm_cycle(daily_pe_ntm, 5, analysis_date)
     pe_ntm_q1_1y, pe_ntm_days_1y = calc_pe_ntm_cycle(daily_pe_ntm, 1, analysis_date)
 
-    # NNI CAGR
+    # NNI CAGR & EPS CAGR NTM
     def calc_nni_ttm_from_quarters(quarter_dates: list[date]) -> float | None:
         quarters = [stock.history.quarterly[day] for day in quarter_dates]
         ni_ttm = calc_ni_ttm([quarter.net_income for quarter in quarters])
         shares = quarters[0].shares_outstanding
         return calc_nni_ttm(ni_ttm, shares) if shares else None
 
+    nni_ttm_current = None
+    if len(sorted_quarterly_dates) >= 4:
+        nni_ttm_current = calc_nni_ttm_from_quarters(sorted_quarterly_dates[:4])
+
     nni_cagr = None
     if len(sorted_quarterly_dates) >= 8:
-        nni_ttm_current = calc_nni_ttm_from_quarters(sorted_quarterly_dates[:4])
         nni_ttm_prior = calc_nni_ttm_from_quarters(sorted_quarterly_dates[4:8])
         nni_cagr = calc_nni_cagr(nni_ttm_current, nni_ttm_prior)
+
+    # EPS_TTM = NNI_TTM (NI_TTM / Shares_Outstanding)
+    eps_cagr_ntm = calc_eps_cagr_ntm(current_eps_ntm, nni_ttm_current)
 
     # NNI Margin
     nni_margin = None
@@ -113,5 +121,6 @@ def _calculate_metrics(stock: Stock, target_date: date | None = None) -> StockMe
         pe_ntm_days_5y=pe_ntm_days_5y,
         pe_ntm_days_1y=pe_ntm_days_1y,
         nni_cagr=nni_cagr,
+        eps_cagr_ntm=eps_cagr_ntm,
         nni_margin=nni_margin,
     )
