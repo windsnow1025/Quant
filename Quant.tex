@@ -32,7 +32,7 @@
 
 \subsection{EPS NTM}
 
-For trading day $t$:
+For trading day $t$, $\text{EPS\_NTM}_t$ is the split-adjusted Next Twelve Months EPS estimate at day $t$.
 
 \paragraph{Method 1: Quarterly Estimates Interpolation}~
 \newline
@@ -64,11 +64,8 @@ For each trading day $t$:
 \[
     \text{PE\_NTM}_t = \frac{\text{Price}_t}{\text{EPS\_NTM}_t}
 \]
-where:
-\begin{itemize}
-    \item $\text{Price}_t$ is the split-adjusted stock price on trading day $t$
-    \item $\text{EPS\_NTM}_t$ is the split-adjusted Next Twelve Months EPS estimate at day $t$
-\end{itemize}
+where $\text{Price}_t$ is the split-adjusted stock price on trading day $t$.
+\newline
 Note: Both $\text{Price}_t$ and $\text{EPS\_NTM}_t$ must be adjusted to the same split basis.
 
 \subsection{P/E NTM Cycle Signal}
@@ -118,6 +115,17 @@ where $\text{NNI\_CAGR}$ is the Compound Annual Growth Rate of Normalized Net In
 \paragraph{Signal:}
 \[
     \text{NNI\_CAGR} > 0
+\]
+
+\subsection{EPS CAGR NTM}
+\[
+    \text{EPS\_CAGR\_NTM} \approx \frac{\text{EPS\_NTM}_t}{\text{EPS\_TTM}_t} - 1
+\]
+where $\text{EPS\_CAGR\_NTM}$ is the Compound Annual Growth Rate of EPS NTM.
+
+\paragraph{Signal:}
+\[
+    \text{EPS\_CAGR\_NTM} > 0
 \]
 
 
