@@ -12,13 +12,15 @@ WATCHLIST: list[StockInfo] = [
     StockInfo("SPOT", StockCategory.Online),
     StockInfo("DUOL", StockCategory.Online),
     # Offline
-    StockInfo("DOCU", StockCategory.Offline),
+    StockInfo("AMZN", StockCategory.Offline),
     StockInfo("SHOP", StockCategory.Offline),
     StockInfo("CART", StockCategory.Offline),
     StockInfo("UBER", StockCategory.Offline),
     StockInfo("BKNG", StockCategory.Offline),
     StockInfo("EB", StockCategory.Offline),
     StockInfo("LYV", StockCategory.Offline),
+    StockInfo("DOCU", StockCategory.Offline),
+    StockInfo("WDAY", StockCategory.Offline),
     # Hardware
     StockInfo("ASML", StockCategory.Hardware),
     StockInfo("TSM", StockCategory.Hardware),
@@ -45,6 +47,7 @@ WATCHLIST: list[StockInfo] = [
     StockInfo("JPM", StockCategory.Finance),
     StockInfo("C", StockCategory.Finance),
     StockInfo("SOFI", StockCategory.Finance),
+    StockInfo("BLK", StockCategory.Finance),
     StockInfo("BAC", StockCategory.Finance),
     StockInfo("IBKR", StockCategory.Finance),
     StockInfo("SCHW", StockCategory.Finance),
@@ -59,6 +62,7 @@ WATCHLIST: list[StockInfo] = [
     # Consumer
     StockInfo("TMUS", StockCategory.Consumer),
     StockInfo("VZ", StockCategory.Consumer),
+    StockInfo("COST", StockCategory.Consumer),
     StockInfo("LMND", StockCategory.Consumer),
     StockInfo("CVS", StockCategory.Consumer),
     StockInfo("ED", StockCategory.Consumer),
