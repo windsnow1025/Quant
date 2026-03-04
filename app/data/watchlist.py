@@ -30,9 +30,13 @@ WATCHLIST: list[StockInfo] = [
     StockInfo("ARM", StockCategory.Hardware),
     StockInfo("QCOM", StockCategory.Hardware),
     StockInfo("AVGO", StockCategory.Hardware),
+    StockInfo("T", StockCategory.Hardware),
+    StockInfo("TMUS", StockCategory.Hardware),
+    StockInfo("VZ", StockCategory.Hardware),
     StockInfo("MU", StockCategory.Hardware),
     StockInfo("SNDK", StockCategory.Hardware),
     StockInfo("WDC", StockCategory.Hardware),
+    StockInfo("GLW", StockCategory.Hardware),
     StockInfo("SONY", StockCategory.Hardware),
     StockInfo("LOGI", StockCategory.Hardware),
     # Finance
@@ -60,8 +64,6 @@ WATCHLIST: list[StockInfo] = [
     StockInfo("GM", StockCategory.Industrial),
     StockInfo("MMM", StockCategory.Industrial),
     # Consumer
-    StockInfo("TMUS", StockCategory.Consumer),
-    StockInfo("VZ", StockCategory.Consumer),
     StockInfo("COST", StockCategory.Consumer),
     StockInfo("LMND", StockCategory.Consumer),
     StockInfo("CVS", StockCategory.Consumer),
