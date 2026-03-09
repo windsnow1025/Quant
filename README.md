@@ -15,7 +15,6 @@ TODO: use PIT consensus EPS data source.
 
 ### PyCharm
 
-1. Add New Interpreter >> Add Local Interpreter
+Add New Interpreter >> Add Local Interpreter
   - Environment: Select existing
   - Type: uv
-2. Add New Configuration >> uv run >> Script: `./app/main.py`
