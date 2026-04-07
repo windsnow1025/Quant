@@ -8,6 +8,7 @@ from enum import Enum
 # ============================================================================
 
 class StockCategory(Enum):
+    SoftwareDevelop = "Software Develop"
     Online = "Online"
     Offline = "Offline"
     Hardware = "Hardware"

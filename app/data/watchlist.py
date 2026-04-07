@@ -1,18 +1,22 @@
 from app.core.models import StockCategory, StockInfo
 
 WATCHLIST: list[StockInfo] = [
+    # Develop
+    StockInfo("GOOGL", StockCategory.SoftwareDevelop),
+    StockInfo("MSFT", StockCategory.SoftwareDevelop),
+    StockInfo("META", StockCategory.SoftwareDevelop),
+    StockInfo("IBM", StockCategory.SoftwareDevelop),
+    StockInfo("ORCL", StockCategory.SoftwareDevelop),
+    StockInfo("AMZN", StockCategory.SoftwareDevelop),
+    StockInfo("ESTC", StockCategory.SoftwareDevelop),
+    StockInfo("NET", StockCategory.SoftwareDevelop),
     # Online
-    StockInfo("GOOGL", StockCategory.Online),
-    StockInfo("MSFT", StockCategory.Online),
-    StockInfo("META", StockCategory.Online),
-    StockInfo("NET", StockCategory.Online),
     StockInfo("ADBE", StockCategory.Online),
     StockInfo("U", StockCategory.Online),
     StockInfo("RDDT", StockCategory.Online),
     StockInfo("SPOT", StockCategory.Online),
     StockInfo("DUOL", StockCategory.Online),
     # Offline
-    StockInfo("AMZN", StockCategory.Offline),
     StockInfo("SHOP", StockCategory.Offline),
     StockInfo("CART", StockCategory.Offline),
     StockInfo("UBER", StockCategory.Offline),
