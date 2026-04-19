@@ -750,6 +750,7 @@ version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "matplotlib" },
+    { name = "numpy" },
     { name = "python-dotenv" },
     { name = "requests" },
     { name = "yfinance" },
@@ -763,6 +764,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "matplotlib" },
+    { name = "numpy" },
     { name = "python-dotenv" },
     { name = "requests" },
     { name = "yfinance" },
