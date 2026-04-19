@@ -1,7 +1,5 @@
 # Quant
 
-TODO: use PIT consensus EPS data source.
-
 ## Development
 
 ### Python uv
