@@ -13,68 +13,59 @@ def print_stock_analysis(analysis: StockAnalysis) -> None:
     metrics = analysis.metrics
     signals = analysis.signals
 
-    # Current P/E NTM
+    # Current EV/EBIT
     print(f"  📊 Current Metrics:")
-    if metrics.pe_ntm is not None:
-        print(f"    P/E NTM:           {metrics.pe_ntm:.2f}")
+    if metrics.ev_ebit is not None:
+        print(f"    EV/EBIT:           {metrics.ev_ebit:.2f}")
 
-    # P/E NTM 5Y Cycle
-    print(f"  📈 P/E NTM 5Y Cycle:")
-    if metrics.pe_ntm_q1_5y is not None:
-        days_info = f" ({metrics.pe_ntm_days_5y}/1250)" if metrics.pe_ntm_days_5y < 1250 else ""
-        print(f"    Q1 (25%):          {metrics.pe_ntm_q1_5y:.2f}{days_info}")
-        if metrics.pe_ntm is not None:
-            signal_5y = "✅" if signals.pe_ntm_10y_cycle else "❌"
-            print(f"    Signal (P/E < Q1): {signal_5y}")
+    # EV/EBIT 5Y Cycle
+    print(f"  📈 EV/EBIT 5Y Cycle:")
+    if metrics.ev_ebit_q1_5y is not None:
+        days_info = f" ({metrics.ev_ebit_days_5y}/1250)" if metrics.ev_ebit_days_5y < 1250 else ""
+        print(f"    Q1 (25%):          {metrics.ev_ebit_q1_5y:.2f}{days_info}")
+        if metrics.ev_ebit is not None:
+            signal_5y = "✅" if signals.ev_ebit_5y_cycle else "❌"
+            print(f"    Signal (EV/EBIT < Q1): {signal_5y}")
     else:
         print(f"    (No data)")
 
-    # P/E NTM 1Y Cycle
-    print(f"  📈 P/E NTM 1Y Cycle:")
-    if metrics.pe_ntm_q1_1y is not None:
-        days_info = f" ({metrics.pe_ntm_days_1y}/250)" if metrics.pe_ntm_days_1y < 250 else ""
-        print(f"    Q1 (25%):          {metrics.pe_ntm_q1_1y:.2f}{days_info}")
-        if metrics.pe_ntm is not None:
-            signal_1y = "✅" if signals.pe_ntm_1y_cycle else "❌"
-            print(f"    Signal (P/E < Q1): {signal_1y}")
+    # EV/EBIT 1Y Cycle
+    print(f"  📈 EV/EBIT 1Y Cycle:")
+    if metrics.ev_ebit_q1_1y is not None:
+        days_info = f" ({metrics.ev_ebit_days_1y}/250)" if metrics.ev_ebit_days_1y < 250 else ""
+        print(f"    Q1 (25%):          {metrics.ev_ebit_q1_1y:.2f}{days_info}")
+        if metrics.ev_ebit is not None:
+            signal_1y = "✅" if signals.ev_ebit_1y_cycle else "❌"
+            print(f"    Signal (EV/EBIT < Q1): {signal_1y}")
     else:
         print(f"    (No data)")
 
-    # NNI CAGR
-    print(f"  📈 NNI CAGR (1Y TTM):")
-    if metrics.nni_cagr is not None:
-        signal_cagr = "✅" if signals.nni_cagr_positive else "❌"
-        print(f"    Value:             {metrics.nni_cagr:.2%}")
-        print(f"    Signal (> 0):      {signal_cagr}")
+    # EBIT TTM (Positivity)
+    print(f"  📈 EBIT TTM:")
+    if metrics.ebit_ttm is not None:
+        signal_positive = "✅" if signals.ebit_positive else "❌"
+        print(f"    Value:             {metrics.ebit_ttm / 1e6:,.0f}M")
+        print(f"    Signal (> 0):      {signal_positive}")
     else:
         print(f"    (Insufficient data)")
 
-    # EPS CAGR NTM
-    print(f"  📈 EPS CAGR NTM:")
-    if metrics.eps_cagr_ntm is not None:
-        signal_eps_cagr = "✅" if signals.eps_cagr_ntm_positive else "❌"
-        print(f"    Value:             {metrics.eps_cagr_ntm:.2%}")
-        print(f"    Signal (> 0):      {signal_eps_cagr}")
-    else:
-        print(f"    (Insufficient data)")
-
-    # NNI Margin
-    print(f"  📈 NNI Margin (LTM):")
-    if metrics.nni_margin is not None:
-        signal_margin = "✅" if signals.nni_margin_positive else "❌"
-        print(f"    Value:             {metrics.nni_margin:.2%}")
-        print(f"    Signal (> 0):      {signal_margin}")
+    # EBIT YoY Growth
+    print(f"  📈 EBIT YoY Growth:")
+    if metrics.ebit_growth is not None:
+        signal_growth = "✅" if signals.ebit_growth_positive else "❌"
+        print(f"    Value:             {metrics.ebit_growth:.2%}")
+        print(f"    Signal (> 0):      {signal_growth}")
     else:
         print(f"    (Insufficient data)")
 
     # Summary
     print(f"  {'─' * 40}")
-    print(f"  📋 Signal Summary: {signals.signal_count}/5 passed")
+    print(f"  📋 Signal Summary: {signals.signal_count}/4 passed")
     if signals.all_signals_pass:
         print(f"  🎯 RECOMMENDATION: STRONG BUY")
-    elif signals.signal_count >= 4:
-        print(f"  🎯 RECOMMENDATION: BUY")
     elif signals.signal_count >= 3:
+        print(f"  🎯 RECOMMENDATION: BUY")
+    elif signals.signal_count >= 2:
         print(f"  🎯 RECOMMENDATION: HOLD")
     else:
         print(f"  🎯 RECOMMENDATION: AVOID")
@@ -109,12 +100,11 @@ def print_summary_report(analyses: list[StockAnalysis]) -> None:
 
         print(f"\n{label} ({len(analyses)}):")
         for analysis in analyses:
-            m = analysis.metrics
-            pe = f"{m.pe_ntm:6.1f}" if m.pe_ntm else "   N/A"
-            cagr = f"{m.nni_cagr:+7.1%}" if m.nni_cagr else "    N/A"
-            eps_cagr = f"{m.eps_cagr_ntm:+7.1%}" if m.eps_cagr_ntm else "    N/A"
-            margin = f"{m.nni_margin:6.1%}" if m.nni_margin else "   N/A"
-            print(f"  {analysis.info.ticker:6} | P/E:{pe} | CAGR:{cagr} | EPS CAGR:{eps_cagr} | Margin:{margin} | Signals: {analysis.signals.signal_count}/5")
+            metrics = analysis.metrics
+            ev_ebit = f"{metrics.ev_ebit:6.1f}" if metrics.ev_ebit is not None else "   N/A"
+            ebit_ttm = f"{metrics.ebit_ttm / 1e6:8,.0f}M" if metrics.ebit_ttm is not None else "      N/A"
+            growth = f"{metrics.ebit_growth:+7.1%}" if metrics.ebit_growth is not None else "    N/A"
+            print(f"  {analysis.info.ticker:6} | EV/EBIT:{ev_ebit} | EBIT TTM:{ebit_ttm} | Growth:{growth} | Signals: {analysis.signals.signal_count}/4")
 
     print_category("🎯 STRONG BUY", strong_buy)
     print_category("✅ BUY", buy)
