@@ -22,9 +22,7 @@ class BacktestEngine:
         self.benchmark_portfolio = Portfolio()
 
     def run(self) -> tuple[list[DailySnapshot], list[DailySnapshot]]:
-        """
-        Run backtest and return (strategy_snapshots, benchmark_snapshots).
-        """
+        """Run backtest and return (strategy_snapshots, benchmark_snapshots)."""
         trading_days = self._get_trading_days()
         all_tickers = {stock.info.ticker for stock in self.stocks}
 
