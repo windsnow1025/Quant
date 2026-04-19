@@ -1,54 +1,43 @@
 # =============================================================================
-# P/E (NTM)
+# Positivity
 # =============================================================================
 
-def signal_pe_ntm_cycle(pe_ntm_current: float | None, pe_ntm_q1: float | None) -> bool:
+def signal_ebit_positive(ebit_ttm: float | None) -> bool:
     """
-    Calculate P/E NTM (Price-to-Earnings Next Twelve Months) Cycle Signal.
+    Calculate EBIT TTM Positivity Signal.
 
-    PE_NTM < Q1 (25th percentile)
+    EBIT_TTM > 0
     """
-    if pe_ntm_current is None or pe_ntm_q1 is None or pe_ntm_current <= 0:
+    if ebit_ttm is None:
         return False
-    return pe_ntm_current < pe_ntm_q1
+    return ebit_ttm > 0
 
 
 # =============================================================================
-# NNI CAGR (1Y TTM)
+# Growth
 # =============================================================================
 
-def signal_nni_cagr(nni_cagr: float | None) -> bool:
+def signal_ebit_growth_positive(ebit_growth: float | None) -> bool:
     """
-    Calculate NNI CAGR (Normalized Net Income Compound Annual Growth Rate) Signal.
+    Calculate EBIT YoY Growth Signal.
 
-    NNI_CAGR > 0
+    EBIT_Growth > 0
     """
-    if nni_cagr is None:
+    if ebit_growth is None:
         return False
-    return nni_cagr > 0
-
-
-def signal_eps_cagr_ntm(eps_cagr_ntm: float | None) -> bool:
-    """
-    Calculate EPS CAGR NTM (EPS Compound Annual Growth Rate NTM) Signal.
-
-    EPS_CAGR_NTM > 0
-    """
-    if eps_cagr_ntm is None:
-        return False
-    return eps_cagr_ntm > 0
+    return ebit_growth > 0
 
 
 # =============================================================================
-# NNI Margin (LTM)
+# EV/EBIT Cycle
 # =============================================================================
 
-def signal_nni_margin(nni_margin: float | None) -> bool:
+def signal_ev_ebit_cycle(ev_ebit_current: float | None, ev_ebit_q1: float | None) -> bool:
     """
-    Calculate NNI Margin (Normalized Net Income Margin) Signal.
+    Calculate EV/EBIT Cycle Signal.
 
-    NNI_Margin > 0
+    EV_EBIT < Q_1
     """
-    if nni_margin is None:
+    if ev_ebit_current is None or ev_ebit_q1 is None or ev_ebit_current <= 0:
         return False
-    return nni_margin > 0
+    return ev_ebit_current < ev_ebit_q1

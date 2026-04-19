@@ -1,142 +1,81 @@
+import numpy as np
+
+
 # =============================================================================
-# P/E (NTM)
+# EBIT TTM
 # =============================================================================
 
-def calc_eps_ntm_quarterly(
-        weight: float,
-        eps_est_q: float,
-        eps_est_q1: float,
-        eps_est_q2: float,
-        eps_est_q3: float,
-        eps_est_q4: float,
-) -> float:
+def calc_ebit_ttm(quarterly_ebits: list[float | None]) -> float | None:
     """
-    Calculate EPS NTM (Earnings Per Share Next Twelve Months) Quarterly.
+    Calculate EBIT TTM (Earnings Before Interest and Taxes, Trailing Twelve Months).
 
-    EPS_NTM_t = w_t * EPS_est_q + Σ(i=1 to 3) EPS_est_{q+i} + (1 - w_t) * EPS_est_{q+4}
+    EBIT_TTM_q = Σ(i=0 to 3) EBIT_{q-i}
     """
-    return weight * eps_est_q + eps_est_q1 + eps_est_q2 + eps_est_q3 + (1 - weight) * eps_est_q4
+    if len(quarterly_ebits) != 4:
+        return None
+    if any(ebit is None for ebit in quarterly_ebits):
+        return None
+    return sum(quarterly_ebits)
 
 
-def calc_eps_ntm_fiscal_year(
-        days_remaining_fy1: int,
-        eps_est_fy1: float | None,
-        eps_est_fy2: float | None,
+# =============================================================================
+# Enterprise Value
+# =============================================================================
+
+def calc_ev(
+        market_cap: float | None,
+        total_debt: float | None,
+        cash: float | None,
 ) -> float | None:
     """
-    Calculate EPS NTM (Earnings Per Share Next Twelve Months) Fiscal Year.
+    Calculate EV (Enterprise Value).
 
-    EPS_NTM_t = (d_t / 365) * EPS_est_FY1 + ((365 - d_t) / 365) * EPS_est_FY2
+    EV_t = Market_Cap_t + Total_Debt_{q(t)} - Cash_and_Equivalents_{q(t)}
     """
-    if eps_est_fy1 is None or eps_est_fy2 is None:
+    if market_cap is None or total_debt is None or cash is None:
         return None
-    return (days_remaining_fy1 / 365) * eps_est_fy1 + ((365 - days_remaining_fy1) / 365) * eps_est_fy2
-
-
-def calc_pe_ntm(price: float | None, eps_ntm: float | None) -> float | None:
-    """
-    Calculate P/E NTM (Price-to-Earnings Next Twelve Months).
-
-    PE_NTM_t = Price_t / EPS_NTM_t
-    """
-    if price is None or price <= 0 or eps_ntm is None or eps_ntm == 0:
-        return None
-    return price / eps_ntm
-
-
-def calc_pe_ntm_percentile(pe_ntm_values: list[float], percentile: float) -> float | None:
-    """
-    Calculate P/E NTM Percentile (25th percentile = Q1).
-
-    Q_p = PE_NTM[⌊i⌋] * (1 - f) + PE_NTM[⌈i⌉] * f
-    where i = (p/100) * (n-1), f = i - ⌊i⌋
-    """
-    if len(pe_ntm_values) == 0:
-        return None
-    sorted_values = sorted(pe_ntm_values)
-    n = len(sorted_values)
-    index = (percentile / 100) * (n - 1)
-    lower = int(index)
-    upper = lower + 1
-    if upper >= n:
-        return sorted_values[-1]
-    fraction = index - lower
-    return sorted_values[lower] * (1 - fraction) + sorted_values[upper] * fraction
+    return market_cap + total_debt - cash
 
 
 # =============================================================================
-# NNI CAGR (1Y TTM)
+# EV/EBIT
 # =============================================================================
 
-def calc_ni_ttm(quarterly_net_incomes: list[float | None]) -> float | None:
+def calc_ev_ebit(ev: float | None, ebit_ttm: float | None) -> float | None:
     """
-    Calculate NI TTM (Net Income Trailing Twelve Months).
+    Calculate EV/EBIT.
 
-    NI_TTM_q = Σ(i=0 to 3) NI_{q-i}
+    EV_EBIT_t = EV_t / EBIT_TTM_{q(t)}
     """
-    if len(quarterly_net_incomes) != 4:
+    if ev is None or ev <= 0 or ebit_ttm is None or ebit_ttm <= 0:
         return None
-    if any(ni is None for ni in quarterly_net_incomes):
+    return ev / ebit_ttm
+
+
+def calc_ev_ebit_percentile(ev_ebit_values: list[float], percentile: float) -> float | None:
+    """
+    Calculate EV/EBIT Percentile.
+
+    Q_p = p-th percentile of {EV_EBIT_t}_{t=1}^{n}
+    """
+    if len(ev_ebit_values) == 0:
         return None
-    return sum(quarterly_net_incomes)
-
-
-def calc_nni_ttm(ni_ttm: float | None, shares_outstanding: float | None) -> float | None:
-    """
-    Calculate NNI TTM (Normalized Net Income Trailing Twelve Months).
-
-    NNI_TTM_q = NI_TTM_q / Shares_Outstanding_q
-    """
-    if ni_ttm is None or shares_outstanding is None or shares_outstanding == 0:
-        return None
-    return ni_ttm / shares_outstanding
-
-
-def calc_nni_cagr(nni_ttm_current: float | None, nni_ttm_prior: float | None) -> float | None:
-    """
-    Calculate NNI CAGR (Normalized Net Income Compound Annual Growth Rate).
-
-    NNI_CAGR = NNI_TTM_q / NNI_TTM_{q-4} - 1
-    """
-    if nni_ttm_current is None or nni_ttm_prior is None or nni_ttm_prior == 0:
-        return None
-    return (nni_ttm_current / nni_ttm_prior) - 1
-
-
-def calc_eps_cagr_ntm(eps_ntm: float | None, eps_ttm: float | None) -> float | None:
-    """
-    Calculate EPS CAGR NTM (EPS Compound Annual Growth Rate NTM).
-
-    EPS_CAGR_NTM ≈ EPS_NTM_t / EPS_TTM_t - 1
-    """
-    if eps_ntm is None or eps_ttm is None or eps_ttm == 0:
-        return None
-    return (eps_ntm / eps_ttm) - 1
+    return float(np.percentile(ev_ebit_values, percentile))
 
 
 # =============================================================================
-# NNI Margin (LTM)
+# EBIT Growth
 # =============================================================================
 
-def calc_revenue_ltm(quarterly_revenues: list[float | None]) -> float | None:
+def calc_ebit_growth(
+        ebit_ttm_current: float | None,
+        ebit_ttm_prior: float | None,
+) -> float | None:
     """
-    Calculate Revenue LTM (Revenue Last Twelve Months).
+    Calculate EBIT YoY Growth.
 
-    Revenue_LTM = Σ(i=0 to 3) Revenue_{q-i}
+    EBIT_Growth_q = EBIT_TTM_q / EBIT_TTM_{q-4} - 1
     """
-    if len(quarterly_revenues) != 4:
+    if ebit_ttm_current is None or ebit_ttm_prior is None or ebit_ttm_prior == 0:
         return None
-    if any(revenue is None for revenue in quarterly_revenues):
-        return None
-    return sum(quarterly_revenues)
-
-
-def calc_nni_margin(ni_ttm: float | None, revenue_ltm: float | None) -> float | None:
-    """
-    Calculate NNI Margin (Normalized Net Income Margin).
-
-    NNI_Margin = NNI_TTM / Revenue_Per_Share = NI_TTM / Revenue_LTM
-    """
-    if ni_ttm is None or revenue_ltm is None or revenue_ltm == 0:
-        return None
-    return ni_ttm / revenue_ltm
+    return (ebit_ttm_current / ebit_ttm_prior) - 1

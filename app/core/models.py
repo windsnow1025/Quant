@@ -27,20 +27,21 @@ class StockInfo:
 @dataclass(frozen=True)
 class StockLiveData:
     price: float | None
-    eps_ntm: float | None
-    shares_outstanding: float | None
+    ev_ebit: float | None
 
 
 @dataclass(frozen=True)
 class StockDailyData:
     price: float | None
-    eps_ntm: float | None
+    ev_ebit: float | None
 
 
 @dataclass(frozen=True)
 class StockQuarterlyData:
-    net_income: float | None
-    revenue: float | None
+    filing_date: date | None
+    ebit: float | None
+    total_debt: float | None
+    cash: float | None
     shares_outstanding: float | None
 
 
@@ -63,42 +64,38 @@ class Stock:
 
 @dataclass
 class StockMetrics:
-    pe_ntm: float | None = None
-    pe_ntm_q1_5y: float | None = None
-    pe_ntm_q1_1y: float | None = None
-    pe_ntm_days_5y: int = 0
-    pe_ntm_days_1y: int = 0
-    nni_cagr: float | None = None
-    eps_cagr_ntm: float | None = None
-    nni_margin: float | None = None
+    ev_ebit: float | None = None
+    ev_ebit_q1_5y: float | None = None
+    ev_ebit_q1_1y: float | None = None
+    ev_ebit_days_5y: int = 0
+    ev_ebit_days_1y: int = 0
+    ebit_ttm: float | None = None
+    ebit_growth: float | None = None
 
 
 @dataclass
 class StockSignals:
-    pe_ntm_10y_cycle: bool = False
-    pe_ntm_1y_cycle: bool = False
-    nni_cagr_positive: bool = False
-    eps_cagr_ntm_positive: bool = False
-    nni_margin_positive: bool = False
+    ev_ebit_5y_cycle: bool = False
+    ev_ebit_1y_cycle: bool = False
+    ebit_positive: bool = False
+    ebit_growth_positive: bool = False
 
     @property
     def all_signals_pass(self) -> bool:
         return (
-                self.pe_ntm_10y_cycle
-                and self.pe_ntm_1y_cycle
-                and self.nni_cagr_positive
-                and self.eps_cagr_ntm_positive
-                and self.nni_margin_positive
+                self.ev_ebit_5y_cycle
+                and self.ev_ebit_1y_cycle
+                and self.ebit_positive
+                and self.ebit_growth_positive
         )
 
     @property
     def signal_count(self) -> int:
         return sum([
-            self.pe_ntm_10y_cycle,
-            self.pe_ntm_1y_cycle,
-            self.nni_cagr_positive,
-            self.eps_cagr_ntm_positive,
-            self.nni_margin_positive,
+            self.ev_ebit_5y_cycle,
+            self.ev_ebit_1y_cycle,
+            self.ebit_positive,
+            self.ebit_growth_positive,
         ])
 
 

@@ -5,7 +5,7 @@ from app.data.live_data_fetcher import LiveDataFetcher
 def fetch_stock(stock_info: StockInfo, historical_data: dict[str, StockHistoricalData]) -> Stock:
     live_fetcher = LiveDataFetcher()
 
-    company_name = live_fetcher.get_company_name(stock_info.ticker)
+    company_name = live_fetcher.fetch_company_name(stock_info.ticker)
     stock_info_with_name = StockInfo(
         ticker=stock_info.ticker,
         category=stock_info.category,
