@@ -55,6 +55,7 @@ WATCHLIST: list[StockInfo] = [
     StockInfo("JPM", StockCategory.Finance),
     StockInfo("C", StockCategory.Finance),
     StockInfo("COF", StockCategory.Finance),
+    StockInfo("WSE", StockCategory.Finance),
     StockInfo("SOFI", StockCategory.Finance),
     StockInfo("BLK", StockCategory.Finance),
     StockInfo("BAC", StockCategory.Finance),
