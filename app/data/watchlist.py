@@ -21,7 +21,6 @@ WATCHLIST: list[StockInfo] = [
     StockInfo("CART", StockCategory.Offline),
     StockInfo("UBER", StockCategory.Offline),
     StockInfo("BKNG", StockCategory.Offline),
-    StockInfo("EB", StockCategory.Offline),
     StockInfo("LYV", StockCategory.Offline),
     StockInfo("DOCU", StockCategory.Offline),
     StockInfo("WDAY", StockCategory.Offline),
