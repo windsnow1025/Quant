@@ -65,6 +65,7 @@ WATCHLIST: list[StockInfo] = [
     # Industrial
     StockInfo("FDX", StockCategory.Industrial),
     StockInfo("UPS", StockCategory.Industrial),
+    StockInfo("DAL", StockCategory.Industrial),
     StockInfo("BA", StockCategory.Industrial),
     StockInfo("GM", StockCategory.Industrial),
     StockInfo("MMM", StockCategory.Industrial),
