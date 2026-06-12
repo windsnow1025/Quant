@@ -63,9 +63,10 @@ WATCHLIST: list[StockInfo] = [
     StockInfo("PYPL", StockCategory.Finance),
     StockInfo("NWSA", StockCategory.Finance),
     # Industrial
+    StockInfo("DAL", StockCategory.Industrial),
     StockInfo("FDX", StockCategory.Industrial),
     StockInfo("UPS", StockCategory.Industrial),
-    StockInfo("DAL", StockCategory.Industrial),
+    StockInfo("SPCX", StockCategory.Industrial),
     StockInfo("BA", StockCategory.Industrial),
     StockInfo("GM", StockCategory.Industrial),
     StockInfo("MMM", StockCategory.Industrial),
