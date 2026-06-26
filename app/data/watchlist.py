@@ -12,6 +12,7 @@ WATCHLIST: list[StockInfo] = [
     StockInfo("NET", StockCategory.SoftwareDevelop),
     # Online
     StockInfo("ADBE", StockCategory.Online),
+    StockInfo("FIG", StockCategory.Online),
     StockInfo("U", StockCategory.Online),
     StockInfo("RDDT", StockCategory.Online),
     StockInfo("SPOT", StockCategory.Online),
@@ -51,9 +52,9 @@ WATCHLIST: list[StockInfo] = [
     StockInfo("V", StockCategory.Finance),
     StockInfo("MA", StockCategory.Finance),
     StockInfo("AXP", StockCategory.Finance),
+    StockInfo("COF", StockCategory.Finance),
     StockInfo("JPM", StockCategory.Finance),
     StockInfo("C", StockCategory.Finance),
-    StockInfo("COF", StockCategory.Finance),
     StockInfo("WSE", StockCategory.Finance),
     StockInfo("SOFI", StockCategory.Finance),
     StockInfo("BLK", StockCategory.Finance),
