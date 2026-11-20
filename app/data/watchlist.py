@@ -10,6 +10,7 @@ WATCHLIST: list[StockInfo] = [
     StockInfo("AMZN", StockCategory.SoftwareDevelop),
     StockInfo("ESTC", StockCategory.SoftwareDevelop),
     StockInfo("NET", StockCategory.SoftwareDevelop),
+    StockInfo("ANT", StockCategory.SoftwareDevelop),
     # Online
     StockInfo("ADBE", StockCategory.Online),
     StockInfo("FIG", StockCategory.Online),
